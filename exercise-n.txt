@@ -1,0 +1,175 @@
+Exercise 1:
+Start mySQL:
+
+    mysql-ctl start
+
+Connect to user mySQL instance:
+
+    mysql -u florentlefebvre
+
+Exercise 2:
+Create a database named decodemtl_test within MySQL:
+
+    create database decodemtl_test;
+
+Create a database named decodemtl_addressbook within MySQL
+
+    create database decodemtl_addressbook;
+
+Exercise 3:
+Remove database named decodemtl_test from MySQL
+
+    drop database decodemtl_test;
+
+Exercise 4:
+Return the list of databases within MySQL
+
+    show databases;
+
+Exercise 5:
+
+Use database decodemtl_addressbook:
+    
+    use decodemtl_addressbook;
+
+Create table Account for database decodemtl_addressbook:
+
+    create table Account (name1 type1, name2 type2, ...);
+
+Create table AddressBook for database decodemtl_addressbook:
+
+    create table AddressBook (name1 type1, name2 type2, ...);
+
+Create table Entry for database decodemtl_addressbook:
+
+    create table Entry (name1 type1, name2 type2, ...);
+
+
+Create table Test for database decodemtl_addressbook:
+
+    create table Test (name 1 type1, name2 typ2, ...);
+
+Exercise 6:
+Remove table Test for database decodemtl_addressbook:
+
+    drop table Test;
+
+Exercise 7:
+Return list of tables within database decodemtl_addressbook
+
+    show tables;
+
+Exercise 8:
+Reflect the data model shown in schema/addressbook_denormalized.png within database decodemtl_addressbook:
+
+alter table Account add (email varchar(255), password varchar(40), createdOn datetime, modifiedOn datetime);
+
+Add columns:
+
+alter table TABLENAME add (name1 type1, name2 type2, ...);
+
+Move columns:
+
+alter table TABLENAME modify COLUMNNAME COLUMNTYPE after COLUMNNAME;
+
+Exercise 9:
+
+Create a data model representing a Barn with Chickens:
+    
+mysql> describe chickens;                                                                                                                                                                     
++-----------+-------------------------------+------+-----+---------+----------------+
+| Field     | Type                          | Null | Key | Default | Extra          |
++-----------+-------------------------------+------+-----+---------+----------------+
+| id        | int(11)                       | NO   | PRI | NULL    | auto_increment |
+| type      | enum('rooster','hen','chick') | YES  |     | NULL    |                |
+| hatchDate | datetime                      | YES  |     | NULL    |                |
+| toAge     | datetime                      | YES  |     | NULL    |                |
+| diedOn    | datetime                      | YES  |     | NULL    |                |
++-----------+-------------------------------+------+-----+---------+----------------+
+
+This model should provide answers to the following questions:
+
+How many rooster, hen and chicks existed in the Barn on a specific date
+
+    remove chickens that are dead, get number of chicks/hens/roosters from type.
+
+How many chicks will come to age on a specific date
+
+    check toAge with specific date, if match add 1.
+
+
+Exercise 10:
+Hotel Challenge:
+
+You may move from --> to: withVariable
+Customer --> Reservation: reservationID
+Reservation --> Customer: customerID
+Reservation --> Room: roomID
+Room --> Reservation: reservationID
+
+
+mysql> describe customer;
++---------------+--------------+------+-----+---------+----------------+
+| Field         | Type         | Null | Key | Default | Extra          |
++---------------+--------------+------+-----+---------+----------------+
+| id            | int(11)      | NO   | PRI | NULL    | auto_increment |
+| firstName     | varchar(255) | YES  |     | NULL    |                |
+| lastName      | varchar(255) | YES  |     | NULL    |                |
+| reservationID | int(11)      | YES  |     | NULL    |                |
++---------------+--------------+------+-----+---------+----------------+
+
+mysql> describe reservation;
++-----------------+--------------+------+-----+---------+----------------+
+| Field           | Type         | Null | Key | Default | Extra          |
++-----------------+--------------+------+-----+---------+----------------+
+| id              | int(11)      | NO   | PRI | NULL    | auto_increment |
+| roomID          | int(11)      | YES  |     | NULL    |                |
+| numberOfPeople  | int(11)      | YES  |     | NULL    |                |
+| checkIn         | datetime     | YES  |     | NULL    |                |
+| checkOut        | datetime     | YES  |     | NULL    |                |
+| customerID      | int(11)      | YES  |     | NULL    |                |
+| specialComments | varchar(255) | YES  |     | NULL    |                |
++-----------------+--------------+------+-----+---------+----------------+
+
+mysql> describe room;
++------------------+----------------------------------------------------------+------+-----+---------+----------------+
+| Field            | Type                                                     | Null | Key | Default | Extra          |
++------------------+----------------------------------------------------------+------+-----+---------+----------------+
+| id               | int(11)                                                  | NO   | PRI | NULL    | auto_increment |
+| floor            | int(11)                                                  | YES  |     | NULL    |                |
+| number           | int(11)                                                  | YES  |     | NULL    |                |
+| name             | varchar(255)                                             | YES  |     | NULL    |                |
+| type             | enum('suite','single','double','utility','recreational') | YES  |     | NULL    |                |
+| numberOfWindows  | int(11)                                                  | YES  |     | NULL    |                |
+| rentable         | tinyint(1)                                               | YES  |     | NULL    |                |
+| privateKitchen   | tinyint(1)                                               | YES  |     | NULL    |                |
+| reservationIDOne | int(11)                                                  | YES  |     | NULL    |                |
+| maxOccupants     | int(11)                                                  | YES  |     | NULL    |                |
++------------------+----------------------------------------------------------+------+-----+---------+----------------+
+
+The list of Rooms available for rent on a specific date:
+
+    Get all rentable rooms.
+
+    Check reservations, remove each room that is occupied on specific date using checkIn and checkOut from reservation.
+
+The list of Rooms which can be occupied by at least 3 people on a specific date.
+
+    Using previously obtained list of rooms, check which ones can have maxOccupants >= 3;
+
+The amount of unrentable Rooms (janitor closets, public laundry room, gym, etc.)
+
+    List of all rooms which display rentable: no.
+
+The amount of Rooms having a private Kitchen
+
+    List of all rooms which display privateKitchen: yes
+
+The average amount of windows per Floor
+
+    get average for each room in same floor, increment floor, repeat until no more floors,
+    get average value from the average of each floor
+
+The amount of Floors having Rooms with carpets
+
+    for each floor, check if a room has a carpet, if yes, add 1.
